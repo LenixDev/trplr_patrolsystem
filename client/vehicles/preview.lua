@@ -2,9 +2,8 @@ RegisterNetEvent("patrol_system:client:preview")
 AddEventHandler("patrol_system:client:preview", function(data)
     Core.Functions.TriggerCallback('patrol_system:server:busycheck', function(status)
         if status then
-            local preview = data.preview
             local cam = data.preview.cam
-            local coords = preview.coords
+            local coords = data.preview.coords
             InPreview = true
             Core.Functions.SpawnVehicle(data.vehicle, function(veh)
                 FreezeEntityPosition(PlayerPedId(), true)

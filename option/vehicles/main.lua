@@ -1,6 +1,6 @@
 Option.Interact = {
     {
-        interact = 'qb_target',
+        interact = 'interact',
         distance = 5,
         interactDst = 2,
         label = 'Take A Patrol',

@@ -1,12 +1,12 @@
 local longVoiceRange = Option.Range
-local micFilter, isMicActive, isToggleOn = false, false, false
+local MicFilter, isMicActive, isToggleOn = false, false, false
 local canUseMic = true
 local VehicleModels = Option.VehicleModels
 local VehicleClasses = Option.VehicleClass
 
 RegisterNetEvent('patrol_system:client:toggle', function()
     print('Toggling Patrol Mic')
-    if not isEmergencyVehicle() then
+    if not IsEmergencyVehicle() then
         exports[Core]:Notify('You must be in an emergency vehicle to use the patrol mic!', 'error', 5000)
         return
     end
@@ -14,13 +14,13 @@ RegisterNetEvent('patrol_system:client:toggle', function()
     if canUseMic then
         isMicActive = not isMicActive
         if isMicActive then
-            applyMicFilter()
+            ApplyMicFilter()
             exports["pma-voice"]:overrideProximityRange(longVoiceRange, true)
             isToggleOn = true
             Interaction.showActivated()
-            vehicleCheckLoop()
+            VehicleCheckLoop()
         else
-            deactivateMic()
+            DeactivateMic()
         end
     else
         exports[Core]:Notify('Patrol mic is not available right now!', 'error', 3000)
@@ -33,7 +33,7 @@ end, false)
 
 RegisterKeyMapping(Option.Command, Option.Description, 'keyboard', Option.Key)
 
-function isEmergencyVehicle()
+function IsEmergencyVehicle()
     local playerPed = PlayerPedId()
     if IsPedInAnyVehicle(playerPed, false) then
         local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -49,27 +49,27 @@ function isEmergencyVehicle()
     return false
 end
 
-function createMicFilter()
-    micFilter = CreateAudioSubmix("patrol_system")
-    if micFilter then
-        SetAudioSubmixEffectRadioFx(micFilter, 0)
-        SetAudioSubmixEffectParamInt(micFilter, 0, `default`, 1)
-        AddAudioSubmixOutput(micFilter, 0)
+function CreateMicFilter()
+    MicFilter = CreateAudioSubmix("patrol_system")
+    if MicFilter then
+        SetAudioSubmixEffectRadioFx(MicFilter, 0)
+        SetAudioSubmixEffectParamInt(MicFilter, 0, `default`, 1)
+        AddAudioSubmixOutput(MicFilter, 0)
     end
 end
 
-function applyMicFilter()
-    if micFilter then
-        MumbleSetSubmixForServerId(PlayerId(), micFilter)
+function ApplyMicFilter()
+    if MicFilter then
+        MumbleSetSubmixForServerId(PlayerId(), MicFilter)
     end
 end
 
-function removeMicFilter()
+function RemoveMicFilter()
     MumbleSetSubmixForServerId(PlayerId(), -1)
 end
 
-function deactivateMic()
-    removeMicFilter()
+function DeactivateMic()
+    RemoveMicFilter()
     exports["pma-voice"]:clearProximityOverride()
     isToggleOn = false
     isMicActive = false
@@ -78,14 +78,14 @@ function deactivateMic()
     Interaction.hide()
 end
 
-function vehicleCheckLoop()
+function VehicleCheckLoop()
     CreateThread(function()
         while isToggleOn do
             Wait(500)
-            if not isEmergencyVehicle() then
+            if not IsEmergencyVehicle() then
                 canUseMic = false
-                exports['qb-core']:Notify('You left the emergency vehicle, mic turned off!', 'warning', 7500)
-                deactivateMic()
+                exports.qbx_core:Notify('You left the emergency vehicle, mic turned off!', 'warning', 7500)
+                DeactivateMic()
                 break
             end
         end
@@ -93,5 +93,5 @@ function vehicleCheckLoop()
 end
 
 CreateThread(function()
-    createMicFilter()
+    CreateMicFilter()
 end)

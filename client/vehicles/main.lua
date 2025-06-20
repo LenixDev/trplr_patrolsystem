@@ -14,7 +14,7 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
 end)
 
 AddEventHandler('onClientResourceStart',function()
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while true do
             if Core ~= nil and Core.Functions.GetPlayerData ~= nil then
                 Core.Functions.GetPlayerData(function(PlayerData)
@@ -25,7 +25,7 @@ AddEventHandler('onClientResourceStart',function()
                 break
             end
         end
-        Citizen.Wait(1)
+        Wait(1)
     end)
 end)
 

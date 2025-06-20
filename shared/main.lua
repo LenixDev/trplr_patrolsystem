@@ -1,8 +1,8 @@
 Option = {}
-Option.Print = false
+Option.Print = true
 Core = 'qb-core'
 Notify = 'qb'
-FuelSystem = 'fuel'
+FuelSystem = 'x-fuel'
 Menu = 'ox_lib'
 Interaction = {
     showPreview = function() return exports['interaction']:showInteraction('⇽', 'Close Preview') end,

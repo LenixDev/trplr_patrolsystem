@@ -97,7 +97,7 @@ end)
 RegisterNetEvent("patrol_system:client:list", function(data)
     local config = data.config
     local spawn = data.spawn
-    local preview = data.preview
+
     if Menu == 'qb-menu' then
         local vehicleMenu = {
             {
@@ -125,7 +125,6 @@ RegisterNetEvent("patrol_system:client:list", function(data)
                     local txt = vehicle.Registerable 
                         and ("Get: " .. vehicle.vehiclename .. " For: " .. vehicle.price .. "$")
                         or ("Take Out " .. vehicle.vehiclename)
-        
                     vehicleMenu[#vehicleMenu+1] = {
                         header = vehicle.vehiclename,
                         txt = txt,
